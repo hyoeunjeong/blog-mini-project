@@ -4,7 +4,7 @@ from django.contrib import messages
 
 from account.forms import CustomUserCreationForm
 
-# 관련 모델 import
+# 모델 import
 from planner.models import PlannerTask
 from todo.models import Task
 from diary.models import Diary

@@ -4,7 +4,7 @@
 <div class="container mt-4">
   <h2 class="mb-3">📚 시험 계획 리스트</h2>
 
-  <!-- 진행률 만들기 -->
+  
   <div class="mb-3">
     <label>📈 진행률: {{ progress }}%</label>
     <div class="progress">
@@ -33,7 +33,7 @@
         <td>{{ task.subject }}</td>
         <td>{{ task.content }}</td>
 
-        <!-- ✅ 시험일 강조: 2일 이내면 붉은 글씨 -->
+       
         {% if task.exam_date <= today_plus_2 %}
           <td class="text-danger fw-bold">{{ task.exam_date }}</td>
         {% else %}

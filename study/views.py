@@ -8,8 +8,12 @@ from .forms import StudyPlanForm
 from openai import OpenAI
 import re
 
+
 client = OpenAI(api_key=settings.OPENAI_API_KEY)
-GPT_MODEL = "gpt-3.5-turbo"  # 필요 시 gpt-4로 변경 가능
+
+
+GPT_MODEL = "gpt-3.5-turbo"
+
 
 
 class StudyAIView(LoginRequiredMixin, View):
@@ -25,7 +29,7 @@ class StudyAIView(LoginRequiredMixin, View):
         plan = form.save(commit=False)
         plan.user = request.user
 
-        # ✅ GPT 프롬프트
+        #  GPT 프롬프트
         prompt = f"""
 나는 대학교 공대생이고 전공은 반도체와 회로야.
 '{plan.subject}'라는 주제에 대해 공부할 계획이야.
@@ -58,7 +62,7 @@ class StudyAIView(LoginRequiredMixin, View):
         plan.result_text = result_text
         plan.save()
 
-        # ✅ GPT 결과 Day별 파싱
+        #  GPT 결과 Day별 파싱
         self.parse_and_save_days(plan, result_text)
 
         return redirect('study:plan_detail', pk=plan.pk)
