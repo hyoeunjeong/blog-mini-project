@@ -1,15 +1,44 @@
 {% extends 'base.html' %}
-{% block content %}
-<h2>📚 AI 공부 플랜 추천</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">AI 플랜 생성</button>
-</form>
 
-{% if result %}
-  <hr>
-  <h3>📝 추천 플랜</h3>
-  <pre>{{ result }}</pre>
-{% endif %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">AI 공부 플랜 추천</h2>
+
+    <form method="post" class="space-y-4">
+        {% csrf_token %}
+
+        <div>
+            <label for="id_subject" class="block text-sm font-medium text-gray-700">공부 주제</label>
+            {{ form.subject|add_class:"w-full mt-1 p-2 border border-gray-300 rounded" }}
+        </div>
+
+        <div>
+            <label for="id_goal" class="block text-sm font-medium text-gray-700">목표</label>
+            {{ form.goal|add_class:"w-full mt-1 p-2 border border-gray-300 rounded" }}
+        </div>
+
+        <div>
+            <label for="id_duration" class="block text-sm font-medium text-gray-700">기간 (일수)</label>
+            {{ form.duration|add_class:"w-full mt-1 p-2 border border-gray-300 rounded" }}
+        </div>
+
+        <div>
+            <label for="id_plan_type" class="block text-sm font-medium text-gray-700">플랜 유형</label>
+            {{ form.plan_type|add_class:"w-full mt-1 p-2 border border-gray-300 rounded" }}
+        </div>
+
+        <div class="pt-4">
+            <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
+                AI 플랜 생성하기
+            </button>
+        </div>
+    </form>
+
+    {% if result %}
+    <hr class="my-6">
+    <h3 class="text-xl font-semibold text-gray-800 mb-2">📝 추천된 학습 플랜</h3>
+    <div class="bg-gray-100 p-4 rounded text-sm whitespace-pre-wrap">{{ result }}</div>
+    {% endif %}
+</div>
 {% endblock %}

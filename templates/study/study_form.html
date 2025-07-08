@@ -1,15 +1,38 @@
-<!-- templates/study/studyplan_form.html -->
-
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 
 {% block content %}
 <div class="max-w-2xl mx-auto p-6 bg-white rounded-xl shadow">
-    <h1 class="text-2xl font-bold mb-4">공부 플랜 생성</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
+    <h1 class="text-2xl font-bold mb-6 text-gray-800">공부 플랜 생성</h1>
 
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">저장</button>
+    <form method="post" class="space-y-6">
+        {% csrf_token %}
+
+        <div>
+            <label for="id_subject" class="block text-sm font-medium text-gray-700">공부 주제</label>
+            {{ form.subject|add_class:"w-full mt-1 p-2 border border-gray-300 rounded" }}
+        </div>
+
+        <div>
+            <label for="id_goal" class="block text-sm font-medium text-gray-700">목표</label>
+            {{ form.goal|add_class:"w-full mt-1 p-2 border border-gray-300 rounded" }}
+        </div>
+
+        <div>
+            <label for="id_duration" class="block text-sm font-medium text-gray-700">기간 (일)</label>
+            {{ form.duration|add_class:"w-full mt-1 p-2 border border-gray-300 rounded" }}
+        </div>
+
+        <div>
+            <label for="id_plan_type" class="block text-sm font-medium text-gray-700">활용 목적</label>
+            {{ form.plan_type|add_class:"w-full mt-1 p-2 border border-gray-300 rounded" }}
+        </div>
+
+        <div class="pt-4">
+            <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
+                플랜 저장하기
+            </button>
+        </div>
     </form>
 </div>
 {% endblock %}

@@ -1,5 +1,22 @@
-<h2>{{ plan.subject }} 공부 계획</h2>
-<p><strong>목표:</strong> {{ plan.goal }}</p>
-<p><strong>기간:</strong> {{ plan.duration }}일</p>
-<pre>{{ plan.result_text }}</pre>
-<a href="{% url 'planner:ai_plan' %}">다시 생성하기</a>
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="max-w-3xl mx-auto bg-white p-6 rounded-xl shadow">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">{{ plan.subject }} 공부 계획</h2>
+
+    <p class="mb-2"><strong>📌 목표:</strong> {{ plan.goal }}</p>
+    <p class="mb-6"><strong>⏳ 기간:</strong> {{ plan.duration }}일</p>
+
+    <h3 class="text-lg font-semibold mb-2">📝 GPT 추천 학습 계획</h3>
+    <div class="bg-gray-100 p-4 rounded whitespace-pre-wrap text-sm">
+        {{ plan.result_text }}
+    </div>
+
+    <div class="mt-6">
+        <a href="{% url 'planner:ai_plan' %}" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+            다시 생성하기
+        </a>
+    </div>
+</div>
+{% endblock %}

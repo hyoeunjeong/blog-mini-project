@@ -1,50 +1,128 @@
 {% extends "blog/base.html" %}
+
 {% block content %}
-<h2>{{ post.title }}</h2>
-<p>{{ post.content }}</p>
+<h2 class="fw-bold">{{ post.title }}</h2>
+<p class="mt-3">{{ post.content }}</p>
 
 {% if post.image %}
-    <img src="{{ post.image.url }}" alt="post image">
+  <img src="{{ post.image.url }}" alt="post image" class="img-fluid my-3">
 {% endif %}
 
-<p>작성자: {{ post.author }}</p>
-<p>작성일: {{ post.created_at|date:"Y년 m월 d일 H:i" }}</p>
-<p>조회수: {{ post.views }}</p>
+<p><strong>작성자:</strong> {{ post.author }}</p>
+<p><strong>작성일:</strong> {{ post.created_at|date:"Y년 m월 d일 H:i" }}</p>
+<p><strong>조회수:</strong> {{ post.views }}</p>
 
-<h4>태그:</h4>
-<ul>
+<!-- ✅ 좋아요 버튼 -->
+{% if user.is_authenticated %}
+  <form id="like-form" data-post-id="{{ post.pk }}" method="post" class="my-3">
+    {% csrf_token %}
+    <button type="submit" id="like-btn" class="btn btn-outline-primary btn-sm">
+      {% if user in post.likes.all %}
+        💔 좋아요 취소 (<span id="like-count">{{ post.likes.count }}</span>)
+      {% else %}
+        👍 좋아요 (<span id="like-count">{{ post.likes.count }}</span>)
+      {% endif %}
+    </button>
+  </form>
+{% else %}
+  <a href="{% url 'account:login' %}" class="btn btn-outline-primary btn-sm">👍 좋아요 (로그인 필요)</a>
+{% endif %}
+
+<!-- ✅ 태그 출력 (클릭 시 검색) -->
+<h5 class="mt-4">태그:</h5>
+<ul class="list-inline">
   {% for tag in tags %}
-    <li>#{{ tag.name }}</li>
-  {% empty %}
-    <li>태그 없음</li>
-  {% endfor %}
-</ul>
-
-<hr>
-<h3>댓글</h3>
-<form method="post" action="{% url 'blog:comment_write' post.pk %}">
-  {% csrf_token %}
-  {{ comment_form.as_p }}
-  <button type="submit">댓글 작성</button>
-</form>
-
-<ul>
-  {% for comment in comments %}
-    <li>
-      <p>{{ comment.writer }} - {{ comment.content }}</p>
+    <li class="list-inline-item">
+      <a href="{% url 'blog:post_list' %}?q={{ tag.name }}&field=tag" class="badge bg-secondary text-decoration-none">
+        #{{ tag.name }}
+      </a>
     </li>
   {% empty %}
-    <li>댓글이 없습니다.</li>
+    <li class="text-muted">태그 없음</li>
   {% endfor %}
 </ul>
 
-<a href="{% url 'blog:edit' post.pk %}">수정</a> |
-<form method="post" action="{% url 'blog:delete' post.pk %}" style="display:inline;">
-  {% csrf_token %}
-  <button type="submit">삭제</button>
-</form>
+<hr class="my-4">
+
+<!-- 💬 댓글 작성 -->
+<h4 class="mb-3">💬 댓글</h4>
+<div class="card mb-4">
+  <div class="card-body">
+    <form method="post" action="{% url 'blog:comment_write' post.pk %}">
+      {% csrf_token %}
+      <div class="mb-3">
+        {{ comment_form.content }}
+      </div>
+      <button type="submit" class="btn btn-success btn-sm">댓글 작성</button>
+    </form>
+  </div>
+</div>
+
+<!-- 💬 댓글 목록 -->
+<ul class="list-group mb-4">
+  {% for comment in comments %}
+    <li class="list-group-item">
+      <div>
+        <strong>{{ comment.writer }}</strong>
+        <span class="text-muted small">- {{ comment.created_at|date:"Y.m.d H:i" }}</span><br>
+        {{ comment.content }}
+      </div>
+
+      {% if user == comment.writer %}
+        <div class="mt-2">
+          <a href="{% url 'blog:comment_edit' comment.pk %}" class="btn btn-outline-secondary btn-sm">✏️ 수정</a>
+          <form method="post" action="{% url 'blog:comment_delete' comment.pk %}" class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-danger btn-sm">🗑 삭제</button>
+          </form>
+        </div>
+      {% endif %}
+    </li>
+  {% empty %}
+    <li class="list-group-item text-muted">댓글이 없습니다.</li>
+  {% endfor %}
+</ul>
+
+<!-- ✏️ 게시글 수정/삭제 -->
+{% if user == post.author %}
+  <div class="d-flex gap-2">
+    <a href="{% url 'blog:edit' post.pk %}" class="btn btn-outline-secondary btn-sm">게시글 수정</a>
+    <form method="post" action="{% url 'blog:delete' post.pk %}" class="d-inline">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-outline-danger btn-sm">게시글 삭제</button>
+    </form>
+  </div>
+{% endif %}
 {% endblock %}
 
-{% if request.user == post.author %}
-  <a href="{% url 'blog:post_edit' post.pk %}" class="btn btn-sm btn-warning">✏️ 수정</a>
-{% endif %}
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const likeForm = document.getElementById('like-form');
+  if (likeForm) {
+    likeForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const postId = this.dataset.postId;
+      const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+      fetch(`/blog/post/${postId}/like/`, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': csrfToken,
+          'Accept': 'application/json',
+        },
+      })
+      .then(response => response.json())
+      .then(data => {
+        const btn = document.getElementById('like-btn');
+        const count = document.getElementById('like-count');
+        count.innerText = data.likes_count;
+        btn.innerText = data.liked
+          ? `💔 좋아요 취소 (${data.likes_count})`
+          : `👍 좋아요 (${data.likes_count})`;
+      });
+    });
+  }
+});
+</script>
+{% endblock %}

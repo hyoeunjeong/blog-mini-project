@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'widget_tweaks',
     # 로컬 앱들
     "home",
     "blog",
@@ -79,11 +80,13 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-# ✅ 전세계 기준 (국제화 설정)
-LANGUAGE_CODE = "ko-kr"  # 언어: 영어
-TIME_ZONE = "UTC"  # 시간대: 국제 표준
-USE_I18N = True
-USE_TZ = True  # UTC 기준 저장
+# ✅ 한국 기준 (국제화 설정)
+LANGUAGE_CODE = "ko-kr"      # 언어: 한국어
+TIME_ZONE = "Asia/Seoul"     # 시간대: 서울 (한국 표준시)
+
+USE_I18N = True              # 국제화 사용
+USE_TZ = False               # ✅ 한국 시간으로 저장하려면 False로 설정
+
 
 # 정적/미디어 파일 설정
 STATIC_URL = "/static/"

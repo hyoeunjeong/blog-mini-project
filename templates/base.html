@@ -33,7 +33,11 @@
                 <a href="{% url 'todo:task_list' %}" class="btn btn-outline-dark btn-sm">✅ 할 일</a>
                 <a href="{% url 'habit:habit_list' %}" class="btn btn-outline-dark btn-sm">📚 습관</a>
                 <a href="{% url 'workout:workout_list' %}" class="btn btn-outline-dark btn-sm">💪 운동</a> 
-                <a href="{% url 'study:ai_plan' %}" class="btn btn-outline-success btn-sm">🤖 AI 공부 계획</a>
+                <a href="{% url 'study:plan_create' %}" class="btn btn-outline-success btn-sm">🤖 AI 공부 계획</a>
+
+
+                <!-- ✅ 비밀번호 변경 버튼 추가 -->
+                <a href="{% url 'account:password_change' %}" class="btn btn-outline-secondary btn-sm ms-2">비밀번호 변경</a>
 
                 <a href="{% url 'logout' %}" class="btn btn-danger btn-sm ms-2">로그아웃</a>
             {% else %}
@@ -43,7 +47,6 @@
         </nav>
     </header>
 
-    
     <main class="pb-5">
         {% block content %}{% endblock %}
     </main>

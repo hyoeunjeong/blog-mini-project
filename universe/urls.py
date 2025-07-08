@@ -8,7 +8,7 @@ urlpatterns = [
     # 🔧 관리자 페이지
     path('admin/', admin.site.urls),
 
-    # 🌐 홈 & 인증 관련
+    # 🌐 홈 & 기본 인증
     path('', home_views.home, name='home'),
     path('register/', home_views.register, name='register'),
     path('login/', home_views.login_view, name='login'),
@@ -17,28 +17,31 @@ urlpatterns = [
     # 📝 블로그
     path('blog/', include(('blog.urls', 'blog'), namespace='blog')),
 
-    # ⏰ 시간표 관리
+    # ⏰ 시간표
     path('timetable/', include(('timetable.urls', 'timetable'), namespace='timetable')),
 
-    # ✅ 할 일(TODO)
+    # ✅ 할 일 관리
     path('todo/', include(('todo.urls', 'todo'), namespace='todo')),
 
-    # 📘 시험 플래너
+    # 📘 플래너
     path('planner/', include(('planner.urls', 'planner'), namespace='planner')),
 
     # 📖 다이어리
     path('diary/', include(('diary.urls', 'diary'), namespace='diary')),
 
-    # 💪 운동 기록
+    # 💪 운동
     path('workout/', include(('workout.urls', 'workout'), namespace='workout')),
 
     # 📚 습관 체크
     path('habit/', include(('habit.urls', 'habit'), namespace='habit')),
-  # AI
-   path('study/', include(('study.urls', 'study'), namespace='study')),
 
+    # 🤖 AI 학습
+    path('study/', include(('study.urls', 'study'), namespace='study')),
+
+    # 🔐 계정 관련 (비밀번호 변경 등)
+    path('account/', include(('account.urls', 'account'), namespace='account')),
 ]
 
-# 📁 미디어 파일 서빙 (개발 환경 전용)
+# 📁 개발 환경에서 미디어 파일 제공
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

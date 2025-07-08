@@ -1,15 +1,32 @@
 {% extends 'base.html' %}
+
+
 {% block content %}
 <h2>{{ plan.subject }} 학습 플랜</h2>
 <p><strong>목표:</strong> {{ plan.goal }}</p>
 <p><strong>기간:</strong> {{ plan.duration }}일</p>
 
 <h3>일별 계획</h3>
-<ul>
-  {% for day in plan.days.all %}
-    <li><strong>Day {{ day.day }}:</strong> {{ day.content|linebreaks }}</li>
-  {% endfor %}
-</ul>
 
-<a href="{% url 'study:ai_plan' %}">다른 플랜 만들기</a>
+{% if plan.days.exists %}
+  <ul>
+    {% for day in plan.days.all %}
+      <li style="margin-bottom: 20px;">
+        <strong>Day {{ day.day }}:</strong>
+        <div style="white-space: pre-wrap; margin-top: 5px;">
+          {{ day.content }}
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <div style="white-space: pre-wrap;">
+    {{ plan.result_text }}
+  </div>
+{% endif %}
+
+<br>
+<a href="{% url 'study:plan_create' %}" class="text-blue-600 underline hover:text-blue-800">
+  다른 플랜 만들기
+</a>
 {% endblock %}

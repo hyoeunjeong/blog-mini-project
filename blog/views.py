@@ -3,6 +3,9 @@ from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 import re
 
 from .models import Post, Comment, Tag
@@ -21,7 +24,8 @@ class Index(View):
             posts = posts.filter(
                 Q(title__icontains=query) |
                 Q(content__icontains=query) |
-                Q(tags__name__icontains=query)
+                Q(tags__name__icontains=query) |
+                Q(author__username__icontains=query)
             ).distinct()
 
         return render(request, 'blog/post_list.html', {
@@ -36,7 +40,7 @@ class Write(LoginRequiredMixin, View):
         form = PostForm()
         return render(request, 'blog/post_form.html', {
             'form': form,
-            "title": "글 작성"
+            "title": "그력"
         })
 
     def post(self, request):
@@ -50,7 +54,7 @@ class Write(LoginRequiredMixin, View):
             return redirect('blog:detail', pk=post.pk)
         return render(request, 'blog/post_form.html', {
             'form': form,
-            "title": "글 작성"
+            "title": "그력"
         })
 
     def handle_tags(self, post):
@@ -70,7 +74,7 @@ class Update(LoginRequiredMixin, View):
         return render(request, 'blog/post_form.html', {
             'form': form,
             'post': post,
-            'title': '글 수정'
+            'title': '그 수정'
         })
 
     def post(self, request, pk):
@@ -87,7 +91,7 @@ class Update(LoginRequiredMixin, View):
         return render(request, 'blog/post_form.html', {
             'form': form,
             'post': post,
-            'title': '글 수정'
+            'title': '그 수정'
         })
 
     def handle_tags(self, post):
@@ -103,7 +107,7 @@ class Delete(LoginRequiredMixin, View):
         post = get_object_or_404(Post, pk=pk)
         return render(request, 'blog/post_confirm_delete.html', {
             'post': post,
-            'title': '글 삭제 확인'
+            'title': '그 삭제 확인'
         })
 
     def post(self, request, pk):
@@ -156,7 +160,7 @@ class CommentDelete(LoginRequiredMixin, View):
         comment = get_object_or_404(Comment, pk=pk)
         if comment.writer != request.user:
             raise PermissionDenied()
-        post_id = comment.post.id
+        post_id = comment.post.pk
         comment.delete()
         return redirect('blog:detail', pk=post_id)
 
@@ -210,3 +214,26 @@ class HashTagDelete(LoginRequiredMixin, View):
             post.tags.remove(tag)
         tag.delete()
         return redirect('blog:post_list')
+
+
+# ======================
+# Like View
+# ======================
+
+@require_POST
+@login_required
+def toggle_like(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    user = request.user
+
+    if user in post.likes.all():
+        post.likes.remove(user)
+        liked = False
+    else:
+        post.likes.add(user)
+        liked = True
+
+    return JsonResponse({
+        'liked': liked,
+        'likes_count': post.likes.count(),
+    })

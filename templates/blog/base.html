@@ -23,6 +23,8 @@
             {% else %}
                 <span class="me-2">{{ request.user.username }}님</span>
                 <a href="{% url 'logout' %}" class="btn btn-danger btn-sm">로그아웃</a>
+                
+
             {% endif %}
         </nav>
     </header>
@@ -35,6 +37,6 @@
         <hr>
         &copy; 2025 hyoeun@
     </footer>
-
+{% block extra_scripts %}{% endblock %}
 </body>
 </html>

@@ -46,6 +46,9 @@ class Post(models.Model):
     category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.SET_NULL)
     tags = models.ManyToManyField(Tag, blank=True)
 
+    # 👍 좋아요 추가
+    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='liked_posts', blank=True)
+
     class Meta:
         ordering = ['-created_at']
         verbose_name = '포스트'
@@ -53,6 +56,9 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('blog:detail', args=[str(self.pk)])
 
 
 class Comment(models.Model):

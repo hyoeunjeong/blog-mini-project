@@ -1,14 +1,35 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<h2>내 공부 플랜 목록</h2>
-<ul>
-  {% for plan in plans %}
-    <li>
-      <a href="{% url 'study:ai_plan_detail' plan.pk %}">{{ plan.subject }} ({{ plan.created_at|date:'Y-m-d' }})</a>
-    </li>
-  {% empty %}
-    <li>아직 생성된 플랜이 없습니다.</li>
-  {% endfor %}
-</ul>
-<a href="{% url 'study:ai_plan' %}">새 플랜 생성</a>
+<div class="max-w-3xl mx-auto p-6">
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">내 공부 플랜 목록</h2>
+
+    {% if plans %}
+        <ul class="space-y-4">
+            {% for plan in plans %}
+                <li class="p-4 bg-white rounded shadow hover:bg-gray-50 transition">
+                    <a href="{% url 'study:plan_detail' plan.pk %}" class="block text-lg font-semibold text-blue-600 hover:underline">
+                        {{ plan.subject }}
+                    </a>
+                    <p class="text-sm text-gray-500">
+                        생성일: {{ plan.created_at|date:'Y년 m월 d일' }} | 기간: {{ plan.duration }}일 | 유형: 
+                        {% if plan.get_plan_type_display %}
+                            {{ plan.get_plan_type_display }}
+                        {% else %}
+                            알 수 없음
+                        {% endif %}
+                    </p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-gray-600">아직 생성된 플랜이 없습니다. 아래 버튼을 눌러 새 계획을 시작해보세요!</p>
+    {% endif %}
+
+    <div class="mt-8">
+        <a href="{% url 'study:plan_create' %}" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+            새 공부 플랜 만들기
+        </a>
+    </div>
+</div>
 {% endblock %}

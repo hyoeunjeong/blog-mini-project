@@ -7,16 +7,28 @@
   <h2 class="mb-4">📃 블로그 글 목록</h2>
 
   <form method="get" action="" class="mb-4">
-    <div class="input-group">
-      <input
-        type="text"
-        name="q"
-        class="form-control"
-        placeholder="검색어를 입력하세요"
-        value="{{ query }}"
-        aria-label="검색어"
-      >
-      <button type="submit" class="btn btn-outline-secondary">검색</button>
+    <div class="row g-2">
+      <div class="col-md-6">
+        <input
+          type="text"
+          name="q"
+          class="form-control"
+          placeholder="검색어를 입력하세요"
+          value="{{ query }}"
+        >
+      </div>
+      <div class="col-md-3">
+        <select name="field" class="form-select">
+          <option value="all" {% if field == "all" %}selected{% endif %}>전체</option>
+          <option value="title" {% if field == "title" %}selected{% endif %}>제목</option>
+          <option value="content" {% if field == "content" %}selected{% endif %}>내용</option>
+          <option value="tag" {% if field == "tag" %}selected{% endif %}>태그</option>
+          <option value="author" {% if field == "author" %}selected{% endif %}>작성자</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <button type="submit" class="btn btn-outline-secondary w-100">검색</button>
+      </div>
     </div>
   </form>
 
@@ -31,8 +43,15 @@
           </h5>
           <p class="card-text">{{ post.content|truncatechars:100 }}</p>
           <p class="card-text">
-            <small class="text-muted">작성자: {{ post.writer }} | {{ post.created_at|date:"Y-m-d H:i" }}</small>
+            <small class="text-muted">
+              작성자: {{ post.author }} | {{ post.created_at|date:"Y-m-d H:i" }}
+            </small>
           </p>
+          <div>
+            {% for tag in post.tags.all %}
+              <a href="?q={{ tag.name }}&field=tag" class="badge bg-secondary text-decoration-none">#{{ tag.name }}</a>
+            {% endfor %}
+          </div>
         </div>
       </div>
     {% endfor %}
