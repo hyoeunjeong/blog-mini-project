@@ -80,7 +80,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-#한국 기준 (
+
 LANGUAGE_CODE = "ko-kr"      # 언어: 한국어
 TIME_ZONE = "Asia/Seoul"     # 시간대: 한국식간
 

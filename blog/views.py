@@ -1,17 +1,18 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.views import View
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import PermissionDenied
-from django.db.models import Q
-from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_POST
-import re
+from django.shortcuts import render, redirect, get_object_or_404  
+from django.views import View  #
+from django.contrib.auth.mixins import LoginRequiredMixin  
+from django.core.exceptions import PermissionDenied  
+from django.db.models import Q  
+from django.http import JsonResponse  
+from django.utils.decorators import method_decorator  
+from django.contrib.auth.decorators import login_required  
+from django.views.decorators.http import require_POST 
+import re  # 태그
+from .models import Post, Comment, Tag  
+from .forms import PostForm, CommentForm, HashTagForm  
 
-from .models import Post, Comment, Tag
-from .forms import PostForm, CommentForm, HashTagForm
 
-
+# 글 목록 및 검색
 class Index(View):
     def get(self, request):
         query = request.GET.get("q", "")
@@ -32,13 +33,11 @@ class Index(View):
         })
 
 
+#글 작성
 class Write(LoginRequiredMixin, View):
     def get(self, request):
         form = PostForm()
-        return render(request, 'blog/post_form.html', {
-            'form': form,
-            "title": "그력"
-        })
+        return render(request, 'blog/post_form.html', {'form': form, "title": "그력"})
 
     def post(self, request):
         form = PostForm(request.POST, request.FILES)
@@ -49,10 +48,7 @@ class Write(LoginRequiredMixin, View):
             form.save_m2m()
             self.handle_tags(post)
             return redirect('blog:detail', pk=post.pk)
-        return render(request, 'blog/post_form.html', {
-            'form': form,
-            "title": "그력"
-        })
+        return render(request, 'blog/post_form.html', {'form': form, "title": "그력"})
 
     def handle_tags(self, post):
         post.tags.clear()
@@ -62,6 +58,7 @@ class Write(LoginRequiredMixin, View):
             post.tags.add(tag)
 
 
+#글 수정
 class Update(LoginRequiredMixin, View):
     def get(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
@@ -99,6 +96,7 @@ class Update(LoginRequiredMixin, View):
             post.tags.add(tag)
 
 
+#글 삭제
 class Delete(LoginRequiredMixin, View):
     def get(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
@@ -115,6 +113,7 @@ class Delete(LoginRequiredMixin, View):
         return redirect('blog:post_list')
 
 
+#글 상세 보기
 class DetailView(View):
     def get(self, request, pk):
         try:
@@ -135,8 +134,7 @@ class DetailView(View):
         })
 
 
-
-
+#댓글 작성
 class CommentWrite(LoginRequiredMixin, View):
     def post(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
@@ -154,6 +152,7 @@ class CommentWrite(LoginRequiredMixin, View):
         return redirect('blog:detail', pk=pk)
 
 
+# 댓글 삭제
 class CommentDelete(LoginRequiredMixin, View):
     def post(self, request, pk):
         comment = get_object_or_404(Comment, pk=pk)
@@ -164,6 +163,7 @@ class CommentDelete(LoginRequiredMixin, View):
         return redirect('blog:detail', pk=post_id)
 
 
+#댓글 수정
 class CommentEdit(LoginRequiredMixin, View):
     def get(self, request, pk):
         comment = get_object_or_404(Comment, pk=pk)
@@ -191,7 +191,7 @@ class CommentEdit(LoginRequiredMixin, View):
         })
 
 
-
+#해시태그 추가
 class HashTagWrite(LoginRequiredMixin, View):
     def post(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
@@ -203,6 +203,7 @@ class HashTagWrite(LoginRequiredMixin, View):
         return redirect('blog:detail', pk=pk)
 
 
+#해시태그 삭제
 class HashTagDelete(LoginRequiredMixin, View):
     def post(self, request, pk):
         tag = get_object_or_404(Tag, pk=pk)
@@ -212,22 +213,21 @@ class HashTagDelete(LoginRequiredMixin, View):
         return redirect('blog:post_list')
 
 
+#좋아요  
+@method_decorator([login_required, require_POST], name='dispatch')
+class ToggleLikeView(View):
+    def post(self, request, pk):
+        post = get_object_or_404(Post, pk=pk)
+        user = request.user
 
+        if user in post.likes.all():
+            post.likes.remove(user)
+            liked = False
+        else:
+            post.likes.add(user)
+            liked = True
 
-@require_POST
-@login_required
-def toggle_like(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    user = request.user
-
-    if user in post.likes.all():
-        post.likes.remove(user)
-        liked = False
-    else:
-        post.likes.add(user)
-        liked = True
-
-    return JsonResponse({
-        'liked': liked,
-        'likes_count': post.likes.count(),
-    })
+        return JsonResponse({
+            'liked': liked,
+            'likes_count': post.likes.count(),
+        })

@@ -4,6 +4,6 @@ from .models import Post
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     list_display = ('title', 'category', 'created_at', 'author')
-    search_fields = ('title', 'category')
+    search_fields = ('title', 'category', 'author__username')
     list_filter = ('category', 'created_at')
     ordering = ('-created_at',)
