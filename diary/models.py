@@ -19,7 +19,6 @@ class Diary(models.Model):
         ordering = ['-date']
         verbose_name = '일기'
         verbose_name_plural = '일기들'
-        unique_together = ('user', 'date')  # 한 유저는 하루에 하나의 일기만 가능 (선택)
-
+        unique_together = ('user', 'date')  
     def __str__(self):
         return f"{self.date} - {self.emotion} - {self.user.username}"

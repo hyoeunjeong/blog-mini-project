@@ -10,7 +10,7 @@ SECRET_KEY = "django-insecure-jx9^m+1r8la66f*79)2_d1om-lzdh-z(&e=eqk7$$tr#c$qjk@
 DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
-# 앱 구성
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -19,7 +19,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'widget_tweaks',
-    # 로컬 앱들
+    
     "home",
     "blog",
     "planner",
@@ -47,12 +47,12 @@ ROOT_URLCONF = "universe.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],  # 공통 템플릿 경로
+        "DIRS": [BASE_DIR / "templates"],  
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
-                "django.template.context_processors.request",  # 로그인 상태 등 확인 가능
+                "django.template.context_processors.request",  
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
@@ -62,7 +62,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "universe.wsgi.application"
 
-# SQLite DB 설정 (개발용)
+# SQLite DB 설정 
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -80,12 +80,12 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-# ✅ 한국 기준 (국제화 설정)
+#한국 기준 (
 LANGUAGE_CODE = "ko-kr"      # 언어: 한국어
-TIME_ZONE = "Asia/Seoul"     # 시간대: 서울 (한국 표준시)
+TIME_ZONE = "Asia/Seoul"     # 시간대: 한국식간
 
 USE_I18N = True              # 국제화 사용
-USE_TZ = False               # ✅ 한국 시간으로 저장하려면 False로 설정
+USE_TZ = False               #  한국 시간으로  False로 설정
 
 
 # 정적/미디어 파일 설정
@@ -98,10 +98,10 @@ MEDIA_ROOT = BASE_DIR / "media"
 # 기본 AutoField
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# ✅ 커스텀 유저 모델 사용
+# 커스텀 유저 모델 사용
 AUTH_USER_MODEL = "account.User"
 
-# ✅ 로그인 관련 경로 설정
+# 로그인경로 설정
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"

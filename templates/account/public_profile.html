@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>{{ user_profile.username }}님의 프로필</h2>
+
+    {% if user_profile.profile_image %}
+        <img src="{{ user_profile.profile_image.url }}" class="img-thumbnail mb-3" style="max-width: 200px;">
+    {% endif %}
+
+    <p><strong>소개:</strong></p>
+    <div class="border p-2 bg-light rounded">
+        {{ user_profile.bio|default:"아직 소개가 없습니다."|linebreaks }}
+    </div>
+</div>
+{% endblock %}

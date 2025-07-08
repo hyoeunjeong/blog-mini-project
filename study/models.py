@@ -1,7 +1,6 @@
 from django.db import models
 from django.conf import settings
 
-
 class StudyPlan(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     subject = models.CharField("주제", max_length=100)

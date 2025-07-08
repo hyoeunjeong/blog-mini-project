@@ -11,9 +11,6 @@ import re
 from .models import Post, Comment, Tag
 from .forms import PostForm, CommentForm, HashTagForm
 
-# ======================
-# Post Views
-# ======================
 
 class Index(View):
     def get(self, request):
@@ -120,7 +117,11 @@ class Delete(LoginRequiredMixin, View):
 
 class DetailView(View):
     def get(self, request, pk):
-        post = get_object_or_404(Post.objects.prefetch_related('comments', 'tags'), pk=pk)
+        try:
+            post = Post.objects.prefetch_related('comments', 'tags').get(pk=pk)
+        except Post.DoesNotExist:
+            return render(request, '404.html', status=404)
+
         post.views += 1
         post.save(update_fields=['views'])
 
@@ -134,9 +135,7 @@ class DetailView(View):
         })
 
 
-# ======================
-# Comment Views
-# ======================
+
 
 class CommentWrite(LoginRequiredMixin, View):
     def post(self, request, pk):
@@ -192,9 +191,6 @@ class CommentEdit(LoginRequiredMixin, View):
         })
 
 
-# ======================
-# HashTag Views
-# ======================
 
 class HashTagWrite(LoginRequiredMixin, View):
     def post(self, request, pk):
@@ -216,9 +212,7 @@ class HashTagDelete(LoginRequiredMixin, View):
         return redirect('blog:post_list')
 
 
-# ======================
-# Like View
-# ======================
+
 
 @require_POST
 @login_required

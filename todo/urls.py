@@ -1,4 +1,3 @@
-# todo/urls.py
 from django.urls import path
 from .views import TaskListView, TaskUpdateView, TaskDeleteView, TaskToggleCompleteView
 

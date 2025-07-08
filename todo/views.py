@@ -1,4 +1,3 @@
-# todo/views.py
 from django.views.generic import ListView, UpdateView, DeleteView, View
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -16,7 +15,7 @@ class TaskListView(LoginRequiredMixin, ListView):
     def post(self, request, *args, **kwargs):
         task_text = request.POST.get('task')
         if task_text:
-            Task.objects.create(user=request.user, title=task_text)  # ✅ 필드명 수정
+            Task.objects.create(user=request.user, title=task_text)  
         return redirect('todo:task_list')
 
 class TaskUpdateView(LoginRequiredMixin, UpdateView):

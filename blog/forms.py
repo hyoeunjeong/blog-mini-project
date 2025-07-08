@@ -1,9 +1,7 @@
 from django import forms
 from .models import Post, Comment
 
-# ----------------------------
-# 게시글 작성 폼
-# ----------------------------
+
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
@@ -15,9 +13,6 @@ class PostForm(forms.ModelForm):
         }
 
 
-# ----------------------------
-# 댓글 작성 폼
-# ----------------------------
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
@@ -27,9 +22,7 @@ class CommentForm(forms.ModelForm):
         }
 
 
-# ----------------------------
-# 해시태그 입력 폼
-# ----------------------------
+
 class HashTagForm(forms.Form):
     name = forms.CharField(
         label='태그 이름',

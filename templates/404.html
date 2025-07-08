@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-5 text-center">
+    <h1>404 - 존재하지 않는 게시글입니다</h1>
+    <p>요청하신 게시글을 찾을 수 없습니다.</p>
+    <a href="{% url 'blog:post_list' %}" class="btn btn-primary mt-3">블로그 홈으로 돌아가기</a>
+  </div>
+{% endblock %}

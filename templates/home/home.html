@@ -5,6 +5,9 @@
     <h2>📌 통합 대시보드</h2>
 
     {% if request.user.is_authenticated %}
+
+     <a href="{% url 'account:profile_view' %}" class="btn btn-outline-info mb-4">내 프로필 보기</a>
+
         <section class="mb-4">
             <h4>📘 플래너 과제</h4>
             <ul>

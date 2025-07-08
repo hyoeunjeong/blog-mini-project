@@ -19,7 +19,7 @@ class PlannerListView(LoginRequiredMixin, ListView):
         total = tasks.count()
         done = tasks.filter(is_done=True).count()
         context['progress'] = int((done / total) * 100) if total > 0 else 0
-        context['today_plus_2'] = date.today() + timedelta(days=2)  # 시험일 강조용
+        context['today_plus_2'] = date.today() + timedelta(days=2)  
         return context
 
 

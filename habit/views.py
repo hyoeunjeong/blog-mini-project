@@ -4,18 +4,18 @@ from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Habit
 
-# ✅ 습관 목록 보기
+# 습관 목록 보기
 class HabitListView(LoginRequiredMixin, ListView):
     model = Habit
     template_name = 'habit/habit_list.html'
     context_object_name = 'habits'
 
     def get_queryset(self):
-        # 로그인한 유저의 습관만 최신순으로 보여줌
+        # 유저의 습관 최신순
         return Habit.objects.filter(user=self.request.user).order_by('-created_at')
 
 
-# ✅ 습관 추가
+# 습관 추가
 class HabitCreateView(LoginRequiredMixin, CreateView):
     model = Habit
     fields = ['name']  # 사용자 입력 필드
@@ -28,7 +28,7 @@ class HabitCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-# ✅ 습관 삭제
+# 습관 삭제
 class HabitDeleteView(LoginRequiredMixin, DeleteView):
     model = Habit
     template_name = 'habit/habit_confirm_delete.html'

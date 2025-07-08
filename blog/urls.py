@@ -16,6 +16,7 @@ urlpatterns = [
     path('post/<int:pk>/edit/', Update.as_view(), name='edit'),
     path('post/<int:pk>/delete/', Delete.as_view(), name='delete'),
     path('post/<int:pk>/like/', toggle_like, name='post_like'),
+    path('<int:pk>/', DetailView.as_view(), name='detail'),
 
     # 💬 댓글
     path('post/<int:pk>/comment/write/', CommentWrite.as_view(), name='comment_write'),

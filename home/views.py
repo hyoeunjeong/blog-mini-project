@@ -24,7 +24,7 @@ def home(request):
         context['diaries'] = Diary.objects.filter(user=user).order_by('-date')[:3]
         context['workouts'] = Workout.objects.filter(user=user).order_by('-date')[:3]
         context['habits'] = Habit.objects.filter(user=user).order_by('-created_at')[:3]
-        context['timetables'] = Timetable.objects.filter(user=user).order_by('weekday')[:1]  # ✅ 수정
+        context['timetables'] = Timetable.objects.filter(user=user).order_by('weekday')[:1]  
 
     return render(request, 'home/home.html', context)
 

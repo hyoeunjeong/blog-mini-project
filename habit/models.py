@@ -6,7 +6,7 @@ class Habit(models.Model):
     name = models.CharField("습관 이름", max_length=100)
     is_checked = models.BooleanField("체크 여부", default=False)
     date = models.DateField("날짜")
-    created_at = models.DateTimeField("생성일", auto_now_add=True)  # ✅ 추가
+    created_at = models.DateTimeField("생성일", auto_now_add=True)  
 
     class Meta:
         verbose_name = "습관"
