@@ -20,7 +20,7 @@
 
 * 🤖 **AI 학습 플래너**: 주제만 입력하면 요일별 공부 계획 자동 생성
 * 💬 **블로그 기능**: 공부 일지 저장, 댓글, 좋아요, 해시태그 기능
-* 👥 **소셜 기능**: 팔로우, 프로필 보기 및 수정
+* 👥 **소셜 기능**: 프로필 보기 및 수정
 * 🔒 **보안 강화**: 권한 기반 접근 제어, CSRF 보호
 * 🎨 **반응형 디자인**
 
@@ -133,11 +133,6 @@ AI가 생성한 학습 계획을 주제별, 요일별로 정리해 저장하고 
 - ai_usage_count
 ```
 
-### Follow
-
-```python
-- follower, following, created_at
-```
 
 ### AIUsageLog
 
@@ -201,7 +196,7 @@ urlpatterns = [
 | `/accounts/signup/`            | SignupView        | 회원가입   | 공개  |
 | `/accounts/profile/<user_id>/` | ProfileView       | 프로필 보기 | 공개  |
 | `/accounts/profile/update/`    | ProfileUpdateView | 프로필 수정 | 본인만 |
-| `/accounts/follow/<user_id>/`  | FollowToggleView  | 팔로우 토글 | 로그인 |
+
 
 ---
 
