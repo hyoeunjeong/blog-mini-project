@@ -1,0 +1,34 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-3">📝 시험 계획 추가/수정</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    
+    <div class="mb-3">
+      <label for="id_subject" class="form-label">과목</label>
+      {{ form.subject }}
+    </div>
+
+    <div class="mb-3">
+      <label for="id_content" class="form-label">시험범위</label>
+      {{ form.content }}
+    </div>
+
+    <div class="mb-3">
+      <label for="id_exam_date" class="form-label">시험 날짜</label>
+      {{ form.exam_date }}
+    </div>
+
+    <div class="mb-3 form-check">
+      {{ form.is_done }}
+      <label for="id_is_done" class="form-check-label">완료</label>
+    </div>
+
+    <button type="submit" class="btn btn-success">저장</button>
+    <a href="{% url 'planner:list' %}" class="btn btn-secondary">취소</a>
+  </form>
+</div>
+{% endblock %}

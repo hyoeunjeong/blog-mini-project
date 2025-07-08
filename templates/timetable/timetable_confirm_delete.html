@@ -1,0 +1,10 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<h3>삭제 확인</h3>
+<p>정말 "{{ item.subject }}" 강의를 삭제할까요?</p>
+<form method="post">
+  {% csrf_token %}
+  <button class="btn btn-danger">삭제</button>
+  <a href="{% url 'timetable:view' %}" class="btn btn-secondary">취소</a>
+</form>
+{% endblock %}

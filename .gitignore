@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+
+# 환경설정 파일
+.env
+.venv/
+venv/
+
+# 미디어 업로드 (사용자 파일)
+media/
+
+# 데이터베이스
+db.sqlite3
+
+# VS Code 설정 (선택)
+.vscode/

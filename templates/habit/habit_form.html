@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}루틴 추가{% endblock %}
+
+{% block content %}
+<h2>📚 새로운 루틴 추가</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">저장</button>
+</form>
+
+<a href="{% url 'habit:habit_list' %}" class="btn btn-secondary mt-3">⬅ 목록으로</a>
+{% endblock %}

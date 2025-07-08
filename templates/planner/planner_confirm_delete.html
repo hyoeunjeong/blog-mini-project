@@ -1,0 +1,14 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2>삭제 확인</h2>
+  <p>정말로 <strong>{{ object.subject }}</strong> 시험 계획을 삭제하시겠습니까?</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <a href="{% url 'planner:list' %}" class="btn btn-secondary">취소</a>
+    <button type="submit" class="btn btn-danger">삭제</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-xl mx-auto mt-4">
+  <h2 class="mb-4">💪 운동 {{ view.action|default:"기록" }}</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">저장</button>
+    <a href="{% url 'workout:workout_list' %}" class="btn btn-secondary">취소</a>
+  </form>
+</div>
+{% endblock %}

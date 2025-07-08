@@ -1,0 +1,5 @@
+<h2>{{ plan.subject }} 공부 계획</h2>
+<p><strong>목표:</strong> {{ plan.goal }}</p>
+<p><strong>기간:</strong> {{ plan.duration }}일</p>
+<pre>{{ plan.result_text }}</pre>
+<a href="{% url 'planner:ai_plan' %}">다시 생성하기</a>

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}일기 목록{% endblock %}
+
+{% block content %}
+<h1>📘 나의 일기 목록</h1>
+
+<a href="{% url 'diary:write' %}" class="btn btn-primary mb-3">오늘의 일기 쓰기</a>
+
+{% if diaries %}
+    <ul class="list-group">
+        {% for diary in diaries %}
+            <li class="list-group-item">
+                <strong>{{ diary.date }}</strong> - {{ diary.emotion }}
+                <div class="mt-2">
+                    {{ diary.content|linebreaks }}
+                </div>
+                <div class="mt-2">
+                    <a href="{% url 'diary:edit' diary.pk %}" class="btn btn-sm btn-outline-secondary">수정</a>
+                    <form method="post" action="{% url 'diary:delete' diary.pk %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-outline-danger">삭제</button>
+                    </form>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>작성된 일기가 없습니다.</p>
+{% endif %}
+{% endblock %}

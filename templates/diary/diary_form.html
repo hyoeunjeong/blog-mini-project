@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}일기 쓰기{% endblock %}
+
+{% block content %}
+<h1>✏️ 오늘의 일기</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="id_emotion" class="form-label">오늘의 감정</label>
+        {{ form.emotion }}
+    </div>
+    <div class="mb-3">
+        <label for="id_content" class="form-label">내용</label>
+        {{ form.content }}
+    </div>
+    <button type="submit" class="btn btn-success">저장</button>
+    <a href="{% url 'diary:list' %}" class="btn btn-secondary">취소</a>
+</form>
+{% endblock %}

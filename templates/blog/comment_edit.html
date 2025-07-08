@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title|default:"댓글 수정" }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <h2 class="mb-4">💬 댓글 수정</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      {{ form.content.label_tag }}
+      {{ form.content }}
+    </div>
+    
+    <button type="submit" class="btn btn-primary">수정 완료</button>
+    <a href="{% url 'blog:detail' comment.post.pk %}" class="btn btn-secondary">취소</a>
+  </form>
+</div>
+{% endblock %}

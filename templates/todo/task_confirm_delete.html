@@ -1,0 +1,15 @@
+<!-- templates/todo/task_confirm_delete.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <h2>🗑 할 일 삭제</h2>
+  <p>정말 "{{ object.title }}" 할 일을 삭제하시겠습니까?</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">삭제</button>
+    <a href="{% url 'todo:task_list' %}" class="btn btn-secondary">취소</a>
+  </form>
+</div>
+{% endblock %}

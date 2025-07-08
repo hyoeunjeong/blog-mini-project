@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="text-xl font-bold">{{ user.username }}님의 대시보드</h1>
+
+<hr>
+
+<h2 class="mt-4 text-lg font-semibold">📝 블로그</h2>
+<ul>
+  {% for post in posts %}
+    <li>{{ post.title }} - {{ post.created_at }}</li>
+  {% empty %}
+    <li>작성한 글이 없습니다.</li>
+  {% endfor %}
+</ul>
+
+<h2 class="mt-4 text-lg font-semibold">📖 일기</h2>
+<ul>
+  {% for diary in diaries %}
+    <li>{{ diary.title }} - {{ diary.date }}</li>
+  {% empty %}
+    <li>작성한 일기가 없습니다.</li>
+  {% endfor %}
+</ul>
+
+<h2 class="mt-4 text-lg font-semibold">💪 운동</h2>
+<ul>
+  {% for workout in workouts %}
+    <li>{{ workout.name }} - {{ workout.duration }}분</li>
+  {% empty %}
+    <li>운동 기록이 없습니다.</li>
+  {% endfor %}
+</ul>
+
+<h2 class="mt-4 text-lg font-semibold">📘 시험 플래너</h2>
+<ul>
+  {% for plan in plans %}
+    <li>{{ plan.title }} - {{ plan.due_date }}</li>
+  {% empty %}
+    <li>계획이 없습니다.</li>
+  {% endfor %}
+</ul>
+
+<h2 class="mt-4 text-lg font-semibold">✅ 할 일</h2>
+<ul>
+  {% for todo in todos %}
+    <li>{{ todo.title }} - {% if todo.completed %}완료{% else %}진행중{% endif %}</li>
+  {% empty %}
+    <li>할 일이 없습니다.</li>
+  {% endfor %}
+</ul>
+
+<h2 class="mt-4 text-lg font-semibold">📚 루틴</h2>
+<ul>
+  {% for habit in habits %}
+    <li>{{ habit.name }}</li>
+  {% empty %}
+    <li>루틴이 없습니다.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

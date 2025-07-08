@@ -1,0 +1,29 @@
+<!-- templates/home/register.html -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+</head>
+<body>
+    <h2>회원가입</h2>
+
+    {% if form.errors %}
+        <ul>
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">가입하기</button>
+    </form>
+
+    <p>이미 계정이 있으신가요? <a href="{% url 'login' %}">로그인</a></p>
+</body>
+</html>

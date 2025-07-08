@@ -1,0 +1,29 @@
+<!-- templates/habit/habit_list.html -->
+{% extends 'base.html' %}
+
+{% block title %}습관 목록{% endblock %}
+
+{% block content %}
+<h2>📚 나의 루틴 목록</h2>
+
+<ul class="list-group mb-3">
+    {% for habit in habits %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ habit.name }}
+            <div>
+                {% if habit.is_checked %}
+                    <span class="badge bg-success">완료</span>
+                {% else %}
+                    <span class="badge bg-secondary">미완</span>
+                {% endif %}
+                <a href="{% url 'habit:toggle' habit.pk %}" class="btn btn-sm btn-outline-info ms-2">토글</a>
+                <a href="{% url 'habit:delete' habit.pk %}" class="btn btn-sm btn-outline-danger ms-1">삭제</a>
+            </div>
+        </li>
+    {% empty %}
+        <li class="list-group-item">루틴이 없습니다.</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'habit:add' %}" class="btn btn-primary">새 루틴 추가</a>
+{% endblock %}

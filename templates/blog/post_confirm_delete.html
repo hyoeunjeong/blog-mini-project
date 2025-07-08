@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <h2 class="text-danger">⚠️ 정말 삭제할까요?</h2>
+  <p>글 제목: <strong>{{ object.title }}</strong></p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">삭제</button>
+    <a href="{% url 'blog:post_detail' object.pk %}" class="btn btn-secondary">취소</a>
+  </form>
+</div>
+{% endblock %}

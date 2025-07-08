@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}UNI.verse 메인{% endblock %}
+
+{% block content %}
+    <h2>📌 통합 대시보드</h2>
+
+    {% if request.user.is_authenticated %}
+        <section class="mb-4">
+            <h4>📘 플래너 과제</h4>
+            <ul>
+                {% for task in planner_tasks %}
+                    <li>{{ task.subject }} ({{ task.exam_date }})</li>
+                {% empty %}
+                    <li>등록된 플래너 과제가 없습니다.</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section class="mb-4">
+            <h4>✅ 할 일 (미완료)</h4>
+            <ul>
+                {% for todo in todos %}
+                    <li>{{ todo.title }}</li>
+                {% empty %}
+                    <li>할 일이 없습니다.</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section class="mb-4">
+            <h4>📖 최근 일기</h4>
+            <ul>
+                {% for diary in diaries %}
+                    <li>{{ diary.date }} - {{ diary.emotion }}</li>
+                {% empty %}
+                    <li>일기가 없습니다.</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section class="mb-4">
+            <h4>💪 최근 운동 기록</h4>
+            <ul>
+                {% for workout in workouts %}
+                    <li>{{ workout.date }} - {{ workout.name }}</li>
+                {% empty %}
+                    <li>운동 기록이 없습니다.</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section class="mb-4">
+            <h4>📚 최근 루틴 체크</h4>
+            <ul>
+                {% for habit in habits %}
+                    <li>{{ habit.name }} - {{ habit.created_at|date:"Y-m-d" }}</li>
+                {% empty %}
+                    <li>루틴 체크 내역이 없습니다.</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section class="mb-4">
+            <h4>📅 시간표 미리보기</h4>
+            <ul>
+                {% for t in timetables %}
+                    <li>{{ t.day }} - {{ t.subject }} ({{ t.start_time }} ~ {{ t.end_time }})</li>
+                {% empty %}
+                    <li>시간표가 없습니다.</li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% else %}
+        <p class="text-muted">로그인 후 나의 데이터를 확인할 수 있습니다.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "blog/base.html" %}
+
+{% block title %}블로그 글 목록{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <h2 class="mb-4">📃 블로그 글 목록</h2>
+
+  <form method="get" action="" class="mb-4">
+    <div class="input-group">
+      <input
+        type="text"
+        name="q"
+        class="form-control"
+        placeholder="검색어를 입력하세요"
+        value="{{ query }}"
+        aria-label="검색어"
+      >
+      <button type="submit" class="btn btn-outline-secondary">검색</button>
+    </div>
+  </form>
+
+  {% if posts %}
+    {% for post in posts %}
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">
+            <a href="{% url 'blog:detail' pk=post.pk %}" class="text-decoration-none">
+              {{ post.title }}
+            </a>
+          </h5>
+          <p class="card-text">{{ post.content|truncatechars:100 }}</p>
+          <p class="card-text">
+            <small class="text-muted">작성자: {{ post.writer }} | {{ post.created_at|date:"Y-m-d H:i" }}</small>
+          </p>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p class="text-muted">글이 없습니다.</p>
+  {% endif %}
+
+  <div class="mt-4">
+    <a href="{% url 'blog:write' %}" class="btn btn-primary">글 작성</a>
+  </div>
+</div>
+{% endblock %}

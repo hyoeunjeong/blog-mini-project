@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="alert alert-danger mt-5">
+    <h4>존재하지 않는 게시글입니다 ❌</h4>
+    <a href="{% url 'blog:post_list' %}" class="btn btn-primary mt-3">글 목록으로 돌아가기</a>
+  </div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<h2>{{ post.title }}</h2>
+<p>{{ post.content }}</p>
+
+{% if post.image %}
+    <img src="{{ post.image.url }}" alt="post image">
+{% endif %}
+
+<p>작성자: {{ post.author }}</p>
+<p>작성일: {{ post.created_at|date:"Y년 m월 d일 H:i" }}</p>
+<p>조회수: {{ post.views }}</p>
+
+<h4>태그:</h4>
+<ul>
+  {% for tag in tags %}
+    <li>#{{ tag.name }}</li>
+  {% empty %}
+    <li>태그 없음</li>
+  {% endfor %}
+</ul>
+
+<hr>
+<h3>댓글</h3>
+<form method="post" action="{% url 'blog:comment_write' post.pk %}">
+  {% csrf_token %}
+  {{ comment_form.as_p }}
+  <button type="submit">댓글 작성</button>
+</form>
+
+<ul>
+  {% for comment in comments %}
+    <li>
+      <p>{{ comment.writer }} - {{ comment.content }}</p>
+    </li>
+  {% empty %}
+    <li>댓글이 없습니다.</li>
+  {% endfor %}
+</ul>
+
+<a href="{% url 'blog:edit' post.pk %}">수정</a> |
+<form method="post" action="{% url 'blog:delete' post.pk %}" style="display:inline;">
+  {% csrf_token %}
+  <button type="submit">삭제</button>
+</form>
+{% endblock %}
+
+{% if request.user == post.author %}
+  <a href="{% url 'blog:post_edit' post.pk %}" class="btn btn-sm btn-warning">✏️ 수정</a>
+{% endif %}

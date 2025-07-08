@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>📚 AI 공부 플랜 추천</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">AI 플랜 생성</button>
+</form>
+
+{% if result %}
+  <hr>
+  <h3>📝 추천 플랜</h3>
+  <pre>{{ result }}</pre>
+{% endif %}
+{% endblock %}

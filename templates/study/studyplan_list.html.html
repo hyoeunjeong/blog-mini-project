@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>내 공부 플랜 목록</h2>
+<ul>
+  {% for plan in plans %}
+    <li>
+      <a href="{% url 'study:ai_plan_detail' plan.pk %}">{{ plan.subject }} ({{ plan.created_at|date:'Y-m-d' }})</a>
+    </li>
+  {% empty %}
+    <li>아직 생성된 플랜이 없습니다.</li>
+  {% endfor %}
+</ul>
+<a href="{% url 'study:ai_plan' %}">새 플랜 생성</a>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<h2>📅 내 시간표</h2>
+<a href="{% url 'timetable:add' %}" class="btn btn-sm btn-success mb-3">➕ 시간표 추가</a>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>과목</th><th>교수</th><th>요일</th><th>시간</th><th>장소</th><th>관리</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in timetable %}
+      <tr>
+        <td>{{ item.subject }}</td>
+        <td>{{ item.professor }}</td>
+        <td>{{ item.get_weekday_display }}</td>
+        <td>{{ item.start_time }} ~ {{ item.end_time }}</td>
+        <td>{{ item.location }}</td>
+        <td>
+          <a href="{% url 'timetable:edit' item.pk %}" class="btn btn-sm btn-outline-primary">수정</a>
+          <form action="{% url 'timetable:delete' item.pk %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button class="btn btn-sm btn-outline-danger">삭제</button>
+          </form>
+        </td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="6">등록된 시간표가 없습니다.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

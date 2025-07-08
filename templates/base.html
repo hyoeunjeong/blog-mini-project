@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}UNI.verse Blog{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container py-4">
+
+    <header class="mb-4">
+        <h1 class="mb-3">
+            <a href="{% url 'home' %}" class="text-decoration-none text-dark">UNI.verse</a>
+        </h1>
+
+        <!-- 알림 메시지 -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- 네비게이션 -->
+        <nav class="mb-3 d-flex flex-wrap gap-2 align-items-center">
+            {% if request.user.is_authenticated %}
+                <span class="me-2 fw-bold">{{ request.user.username }}님 환영합니다.</span>
+
+                <a href="{% url 'blog:post_list' %}" class="btn btn-outline-dark btn-sm">📝 블로그</a>
+                <a href="{% url 'planner:list' %}" class="btn btn-outline-dark btn-sm">📘 플래너</a>
+                <a href="{% url 'timetable:view' %}" class="btn btn-outline-dark btn-sm">📅 시간표</a>
+                <a href="{% url 'diary:list' %}" class="btn btn-outline-dark btn-sm">📖 일기</a>
+                <a href="{% url 'todo:task_list' %}" class="btn btn-outline-dark btn-sm">✅ 할 일</a>
+                <a href="{% url 'habit:habit_list' %}" class="btn btn-outline-dark btn-sm">📚 습관</a>
+                <a href="{% url 'workout:workout_list' %}" class="btn btn-outline-dark btn-sm">💪 운동</a> 
+                <a href="{% url 'study:ai_plan' %}" class="btn btn-outline-success btn-sm">🤖 AI 공부 계획</a>
+
+                <a href="{% url 'logout' %}" class="btn btn-danger btn-sm ms-2">로그아웃</a>
+            {% else %}
+                <a href="{% url 'register' %}" class="btn btn-outline-primary btn-sm">회원가입</a>
+                <a href="{% url 'login' %}" class="btn btn-primary btn-sm">로그인</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    
+    <main class="pb-5">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="text-muted mt-5">
+        <hr/>
+        &copy;  hyoeun@
+    </footer>
+
+</body>
+</html>

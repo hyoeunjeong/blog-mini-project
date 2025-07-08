@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-lg mx-auto mt-4">
+  <h2 class="mb-3">❗ 운동 삭제</h2>
+  <p>정말로 <strong>{{ object.name }}</strong> 기록을 삭제하시겠습니까?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">삭제</button>
+    <a href="{% url 'workout:workout_list' %}" class="btn btn-secondary">취소</a>
+  </form>
+</div>
+{% endblock %}
