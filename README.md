@@ -171,16 +171,6 @@ urlpatterns = [
 | `/blog/comment/<pk>/edit/`       | CommentEdit   | 댓글 수정  | 작성자            |
 | `/blog/comment/<pk>/delete/`     | CommentDelete | 댓글 삭제  | 작성자 or 게시글 작성자 |
 
-### AI 기능 (AJAX)
-
-| URL                          | View              | 설명      | 권한  |
-| ---------------------------- | ----------------- | ------- | --- |
-| `/blog/ai/suggest-title/`    | TitleSuggestion   | 제목 추천   | 로그인 |
-| `/blog/ai/complete-content/` | ContentCompletion | 내용 자동완성 | 로그인 |
-| `/blog/ai/suggest-tags/`     | TagSuggestion     | 태그 추천   | 로그인 |
-| `/blog/ai/generate-summary/` | SummaryGeneration | 요약 생성   | 로그인 |
-| `/blog/ai/usage-stats/`      | ai\_usage\_stats  | 사용 통계   | 로그인 |
-
 ### Study
 
 | URL              | View                | 설명       | 권한  |
