@@ -198,8 +198,4 @@ urlpatterns = [
 
 ---
 
-## etc
 
-* AJAX 기반 좋아요/댓글 처리
-* `LoginRequiredMixin`을 통한 접근 제어
-* 템플릿 활용: `{% url %}`, `{% if user.is_authenticated %}` 등
